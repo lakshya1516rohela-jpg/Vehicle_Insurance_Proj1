@@ -4,57 +4,282 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicle Insurance Prediction</title>
-    <!-- Corrected the CSS path -->
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --surface: #ffffff;
+            --bg: #f8fafc;
+            --border: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --radius: 12px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 1rem;
+        }
+
+        .container {
+            background: var(--surface);
+            max-width: 860px;
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.85rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 0.4rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: #fff;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.15s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            flex: 2;
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            flex: 1;
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        .result-card {
+            margin-top: 2rem;
+            padding: 1.25rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .result-card.accepted {
+            background-color: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .result-card.rejected {
+            background-color: #fff1f2;
+            color: #9f1239;
+            border: 1px solid #fecdd3;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            .actions {
+                flex-direction: column;
+            }
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Vehicle Insurance Prediction</h1>
+        <div class="header">
+            <h1>Vehicle Insurance Prediction</h1>
+            <p>Input customer details to predict insurance conversion probability</p>
+        </div>
 
         <form method="post" action="/">
-            <label for="Gender">Gender (1: Male, 0: Female):</label>
-            <input type="number" id="Gender" name="Gender" min="0" max="1" required>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="Gender">Gender</label>
+                    <select id="Gender" name="Gender" required>
+                        <option value="" disabled selected>Select gender</option>
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+                </div>
 
-            <label for="Age">Age:</label>
-            <input type="number" id="Age" name="Age" required>
+                <div class="form-group">
+                    <label for="Age">Age</label>
+                    <input type="number" id="Age" name="Age" placeholder="e.g. 35" min="18" max="100" required>
+                </div>
 
-            <label for="Driving_License">Driving License (0: No, 1: Yes):</label>
-            <input type="number" id="Driving_License" name="Driving_License" min="0" max="1" required>
+                <div class="form-group">
+                    <label for="Driving_License">Driving License</label>
+                    <select id="Driving_License" name="Driving_License" required>
+                        <option value="1" selected>Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
 
-            <label for="Region_Code">Region Code:</label>
-            <input type="number" step="0.01" id="Region_Code" name="Region_Code" required>
+                <div class="form-group">
+                    <label for="Region_Code">Region Code</label>
+                    <input type="number" step="0.01" id="Region_Code" name="Region_Code" placeholder="e.g. 28.0" required>
+                </div>
 
-            <label for="Previously_Insured">Previously Insured (0: No, 1: Yes):</label>
-            <input type="number" id="Previously_Insured" name="Previously_Insured" min="0" max="1" required>
+                <div class="form-group">
+                    <label for="Previously_Insured">Previously Insured</label>
+                    <select id="Previously_Insured" name="Previously_Insured" required>
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
 
-            <label for="Annual_Premium">Annual Premium:</label>
-            <input type="number" step="0.01" id="Annual_Premium" name="Annual_Premium" required>
+                <div class="form-group">
+                    <label for="Annual_Premium">Annual Premium ($/₹)</label>
+                    <input type="number" step="0.01" id="Annual_Premium" name="Annual_Premium" placeholder="e.g. 32000.0" required>
+                </div>
 
-            <label for="Policy_Sales_Channel">Policy Sales Channel:</label>
-            <input type="number" step="0.01" id="Policy_Sales_Channel" name="Policy_Sales_Channel" required>
+                <div class="form-group">
+                    <label for="Policy_Sales_Channel">Policy Sales Channel</label>
+                    <input type="number" step="0.01" id="Policy_Sales_Channel" name="Policy_Sales_Channel" placeholder="e.g. 152.0" required>
+                </div>
 
-            <label for="Vintage">Vintage:</label>
-            <input type="number" id="Vintage" name="Vintage" required>
+                <div class="form-group">
+                    <label for="Vintage">Vintage (Days with Company)</label>
+                    <input type="number" id="Vintage" name="Vintage" placeholder="e.g. 180" required>
+                </div>
 
-            <label for="Vehicle_Age_lt_1_Year">Vehicle Age < 1 Year (0: No, 1: Yes):</label>
-            <input type="number" id="Vehicle_Age_lt_1_Year" name="Vehicle_Age_lt_1_Year" min="0" max="1" required>
+                <div class="form-group">
+                    <label for="Vehicle_Age_lt_1_Year">Vehicle Age &lt; 1 Year</label>
+                    <select id="Vehicle_Age_lt_1_Year" name="Vehicle_Age_lt_1_Year" required>
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
 
-            <label for="Vehicle_Age_gt_2_Years">Vehicle Age > 2 Years (0: No, 1: Yes):</label>
-            <input type="number" id="Vehicle_Age_gt_2_Years" name="Vehicle_Age_gt_2_Years" min="0" max="1" required>
+                <div class="form-group">
+                    <label for="Vehicle_Age_gt_2_Years">Vehicle Age &gt; 2 Years</label>
+                    <select id="Vehicle_Age_gt_2_Years" name="Vehicle_Age_gt_2_Years" required>
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
 
-            <label for="Vehicle_Damage_Yes">Vehicle Damage (0: No, 1: Yes):</label>
-            <input type="number" id="Vehicle_Damage_Yes" name="Vehicle_Damage_Yes" min="0" max="1" required>
+                <div class="form-group full-width">
+                    <label for="Vehicle_Damage_Yes">Past Vehicle Damage</label>
+                    <select id="Vehicle_Damage_Yes" name="Vehicle_Damage_Yes" required>
+                        <option value="1" selected>Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            </div>
 
-            <button type="submit">Predict</button>
-        </form>
-
-        <form method="get" action="/train">
-            <button type="submit" class="train-button">Train Model</button>
+            <div class="actions">
+                <button type="submit" class="btn-primary">Generate Prediction</button>
+                <button type="button" class="btn-secondary" onclick="window.location.href='/train'">Train Pipeline</button>
+            </div>
         </form>
 
         {% if context %}
-            <div class="result">
-                <h2>Result: {{ context }}</h2>
+            <div class="result-card {% if 'Yes' in context %}accepted{% else %}rejected{% endif %}">
+                <span>Outcome:</span>
+                <strong>{{ context }}</strong>
             </div>
         {% endif %}
     </div>
