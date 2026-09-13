@@ -26,3 +26,11 @@ from src.logger import logging
 
 # pipline = TrainPipeline()
 # pipline.run_pipeline()
+
+from src.pipline.training_pipeline import TrainPipeline
+from dotenv import load_dotenv
+
+load_dotenv()
+
+pipline = TrainPipeline()
+pipline.run_pipeline()
